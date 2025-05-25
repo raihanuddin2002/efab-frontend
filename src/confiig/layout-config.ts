@@ -1,0 +1,5 @@
+export const LAYOUT = {
+    TOP_HEADER: 70,
+    ADMIN_SIDEBAR: 250,
+    ADMIN_SIDEBAR_COLLAPSED_BAR: 30
+}
