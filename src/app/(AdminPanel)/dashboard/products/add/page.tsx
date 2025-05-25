@@ -97,7 +97,7 @@ export default function AddProduct() {
     // }
 
     return (
-        <div className='max-w-[800px] w-full mx-auto pt-[10px] text-center'>
+        <div className='max-w-[800px] w-full mx-auto py-10 text-center'>
             <div className='card w-full bg-slate-50 px-4 py-10'>
                 <form onSubmit={handleSubmit}>
                     <h2 className='text-2xl uppercase font-bold mb-10'>

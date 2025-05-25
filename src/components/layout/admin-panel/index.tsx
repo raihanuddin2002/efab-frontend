@@ -12,7 +12,7 @@ type Props = {
 export default function AdminPanelLayout({ children }: Props) {
     const [openSidebar, setOpenSidebar] = useState(true)
     const isDesktopScreen = useMediaQuery({ query: '(min-width: 1200px)' })
-    console.log(isDesktopScreen)
+
     const sidebarWidth = openSidebar ? (LAYOUT.ADMIN_SIDEBAR + LAYOUT.ADMIN_SIDEBAR_COLLAPSED_BAR) : LAYOUT.ADMIN_SIDEBAR_COLLAPSED_BAR
 
     return (
@@ -28,7 +28,8 @@ export default function AdminPanelLayout({ children }: Props) {
                     className='p-4 overflow-y-auto'
                     style={{
                         width: isDesktopScreen ? `calc(100% - ${sidebarWidth}px)` : '100%',
-                        marginLeft: isDesktopScreen ? sidebarWidth + 'px' : '0'
+                        marginLeft: isDesktopScreen ? sidebarWidth + 'px' : '0',
+                        paddingLeft: isDesktopScreen ? '0' : LAYOUT.ADMIN_SIDEBAR_COLLAPSED_BAR + 15 + 'px'
                     }}
                 >
                     {children}
