@@ -1,23 +1,12 @@
 import * as React from "react"
 import { cn } from "@/lib/cn"
 
-type InputProps = React.ComponentProps<"input"> & {
-  label?: string
-}
+type InputProps = React.ComponentProps<"input">
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, ...props }, ref) => {
+  ({ className, type, ...props }, ref) => {
     return (
-      <div>
-        {label && (
-          <div className="text-left mb-2 px-1">
-            <label htmlFor={props.id}>
-              <span>{label}</span>
-              {props.required && <span className="ml-1 text-red-500">*</span>}
-            </label>
-          </div>
-        )}
-
+      <>
         <input
           type={type}
           className={cn(
@@ -27,7 +16,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           {...props}
         />
-      </div>
+      </>
     )
   }
 )

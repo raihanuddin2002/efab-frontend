@@ -1,7 +1,7 @@
-"use client";
-
-import { redirect } from "next/navigation";
-
 export default function Home() {
-  redirect("/dashboard");
+  return (
+    <section className="flex items-center justify-center h-[calc(100vh-100px)]">
+      <h1 className='text-3xl text-center font-bold'>Welcome to efab!</h1>
+    </section>
+  )
 }
