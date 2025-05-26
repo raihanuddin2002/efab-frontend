@@ -115,7 +115,7 @@ export const TextField = <T extends FieldValues>({
                         </div>
                     </FormControl>
 
-                    <FormMessage className="line-clamp-1 text-xs px-2 text-red-500" />
+                    <FormMessage className="text-xs px-2 text-red-500" />
                 </FormItem>
             )}
         />

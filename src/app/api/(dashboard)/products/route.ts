@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { ProductFormValue } from '@/app/(AdminPanel)/dashboard/products/add/page'
+import { ProductFormValue } from '@/app/(AdminPanel)/dashboard/products/types.product'
 import { createProductInDB, fetchProducts } from './controller'
 
 export async function GET() {

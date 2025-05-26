@@ -9,9 +9,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { z } from 'zod'
+import { createProductBrowser } from '@/app/supabase-browser-actions'
+import { isProductType, ProductFormValue, productSchema } from '@/app/(AdminPanel)/dashboard/products/types.product'
 
-const initialProductState = {
+const initialValues: ProductFormValue = {
     name: '',
     product_code: '',
     admin_price: 0,
@@ -20,24 +21,13 @@ const initialProductState = {
     discount: 0,
 }
 
-const productSchema = z.object({
-    name: z.string().min(3, 'Name must be at least 3 characters long'),
-    product_code: z.string().min(3, 'Code must be at least 3 characters long'),
-    admin_price: z.coerce.number().min(0, 'Admin price must be at least 0').optional(),
-    selling_price: z.coerce.number().min(0, 'Selling price must be at least 0'),
-    regular_price: z.coerce.number().min(0, 'Regular price must be at least 0').optional(),
-    discount: z.coerce.number().min(0, 'Discount must be at least 0').optional(),
-});
-
-export type ProductFormValue = z.infer<typeof productSchema>;
-
 export default function AddProduct() {
     const formRef = useRef<GenericFormRef<ProductFormValue>>(null);
     const [isLoading, setIsLoading] = useState(false)
 
     const form = useForm<ProductFormValue>({
         resolver: zodResolver(productSchema),
-        defaultValues: initialProductState,
+        defaultValues: initialValues,
     });
 
 
@@ -45,26 +35,29 @@ export default function AddProduct() {
         setIsLoading(true)
 
         try {
-            const response = await fetch('/api/products', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values),
-            })
+            const isProduct = isProductType(values)
 
-            const data = await response.json()
-
-            if (!response.ok) {
-                toast.error(data.message || 'Something went wrong')
+            if (!isProduct) {
+                toast.error('Invalid product data')
                 return
             }
 
-            toast.success(`${data.message} (${data.product.product_code})`)
+            const response = await createProductBrowser(values)
+
+            if (!response) {
+                toast.error('Something went wrong')
+                return
+            }
+
             form.reset()
+            toast.success(`Product created successfully (${response.product_code})`)
         } catch (error) {
             console.error(error)
-            toast.error('Network or server error')
+            if (error instanceof Error) {
+                toast.error(error.message)
+            } else {
+                toast.error('Network or server error')
+            }
         } finally {
             setIsLoading(false)
         }
@@ -78,7 +71,7 @@ export default function AddProduct() {
                 <GenericForm
                     ref={formRef}
                     schema={productSchema}
-                    initialValues={initialProductState}
+                    initialValues={initialValues}
                     onSubmit={(values) => {
                         handleFormSubmit(values)
                     }}
@@ -110,6 +103,7 @@ export default function AddProduct() {
                             label='Selling Price'
                             placeholder='Enter Selling Price'
                             type='number'
+                            required
                         />
 
                         <TextField<ProductFormValue>
@@ -117,7 +111,6 @@ export default function AddProduct() {
                             label='Regular Price'
                             placeholder='Enter Regular Price'
                             type='number'
-                            required
                         />
 
                         <TextField<ProductFormValue>

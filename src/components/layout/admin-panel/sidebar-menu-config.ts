@@ -20,9 +20,9 @@ export const sidebarMenuItems = [
                 link: '/dashboard/products/all',
             },
             {
-                title: 'Add',
+                title: 'Create',
                 icon: faPlusCircle,
-                link: '/dashboard/products/add',
+                link: '/dashboard/products/create',
             },
             {
                 title: 'Search',

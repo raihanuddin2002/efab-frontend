@@ -1,4 +1,4 @@
-import { ProductFormValue } from "@/app/(AdminPanel)/dashboard/products/add/page"
+import { ProductFormValue } from "@/app/(AdminPanel)/dashboard/products/types.product"
 import { prisma } from "@/lib/prisma"
 
 export async function fetchProducts() {

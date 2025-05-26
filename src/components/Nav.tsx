@@ -1,35 +1,69 @@
 'use client'
 
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { supabaseBrowserClient } from '@/lib/supabase'
 
-export const navLinks = [
-    {
-        name: "Home",
-        href: "/",
-        loginRoute: true,
-        normalRoute: true
-    },
-    {
-        name: "Login",
-        href: "/login",
-        loginRoute: false,
-        normalRoute: true
-    },
-    {
-        name: "Sign up",
-        href: "/signup",
-        loginRoute: false,
-        normalRoute: true
-    }
-];
+export const Logout = async () => {
+    await supabaseBrowserClient().auth.signOut()
+    window.location.reload()
+}
+
+export const navLinks = (isLoggedIn: boolean) => {
+    return [
+        {
+            name: "Home",
+            href: "/",
+            loginRoute: true,
+            normalRoute: true,
+            show: true
+        },
+        {
+            name: "Login",
+            href: "/login",
+            loginRoute: false,
+            normalRoute: true,
+            show: !isLoggedIn
+        },
+        {
+            name: "Sign up",
+            href: "/signup",
+            loginRoute: false,
+            normalRoute: true,
+            show: !isLoggedIn
+        },
+        {
+            name: "Dashboard",
+            href: "/dashboard",
+            loginRoute: false,
+            normalRoute: false,
+            show: isLoggedIn
+        }
+    ]
+}
 
 export default function Nav() {
     const pathname = usePathname()
     const [showResponsiveNav, setShowResponsiveNav] = useState(false);
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+    useEffect(() => {
+        const fetchSession = async () => {
+            const { data } = await supabaseBrowserClient().auth.getSession()
+            setIsLoggedIn(!!data.session?.user)
+        }
+
+        fetchSession()
+    }, [])
+
+    // const handleLogout = () => {
+    //     Logout()
+    //     setIsLoggedIn(false)
+    // }
 
     return (
         <>
@@ -52,7 +86,8 @@ export default function Nav() {
                 md:gap-4   
             `}>
                 {
-                    navLinks
+                    navLinks(isLoggedIn)
+                        .filter(nav => nav.show)
                         .map(nav => {
                             const isActive = nav.href === pathname;
 
@@ -71,6 +106,18 @@ export default function Nav() {
                             )
                         })
                 }
+
+                {isLoggedIn && <div
+                    className={`${showResponsiveNav && 'px-6 py-3 md:p-0 hover:bg-black md:hover:bg-transparent hover:text-white md:hover:text-black'}`}
+                >
+                    <Link
+                        href={'#'}
+                        className={`md:hover:underline`}
+                        onClick={Logout}
+                    >
+                        Logout
+                    </Link>
+                </div>}
             </nav>
             <button
                 type='button'
