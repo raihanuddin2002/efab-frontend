@@ -1,9 +1,12 @@
+'use client'
+
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ReactNode, Ref, useImperativeHandle } from 'react';
+import { forwardRef, ReactNode, Ref, useImperativeHandle } from 'react';
 import {
     Control,
     DefaultValues,
     FieldValues,
+    FormProvider,
     FormState,
     Path,
     SubmitHandler,
@@ -12,6 +15,7 @@ import {
 } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 import { Form } from '../ui/form';
+import { GenericFormContext } from './customContext';
 
 export type GenericFormRef<T extends FieldValues> = {
     getValues: () => T;
@@ -27,7 +31,6 @@ export type GenericFormProps<TSchema extends ZodType> = {
     initialValues: Partial<z.infer<TSchema>>;
     onSubmit: SubmitHandler<z.infer<TSchema>>;
     children: ReactNode;
-    ref: Ref<GenericFormRef<z.infer<TSchema>>>;
     mode?: 'onChange' | 'onBlur' | 'onSubmit' | 'all';
 } & React.ComponentPropsWithoutRef<'form'>;
 
@@ -42,42 +45,51 @@ export type GenericFormProps<TSchema extends ZodType> = {
  * @returns The generic form component.
  */
 
-export const GenericForm = <TSchema extends ZodType>({
-    ref,
-    initialValues,
-    schema,
-    onSubmit,
-    children,
-    mode = 'onChange',
-}: GenericFormProps<TSchema>) => {
-    const form = useForm<z.infer<TSchema>>({
-        defaultValues: initialValues as DefaultValues<z.infer<TSchema>>,
-        resolver: zodResolver(schema),
-        mode,
+export const GenericForm = forwardRef(
+    <TSchema extends ZodType>(
+        {
+            initialValues,
+            schema,
+            onSubmit,
+            children,
+            mode = 'onChange',
+        }: GenericFormProps<TSchema>,
+        ref: Ref<GenericFormRef<z.infer<TSchema>>>
+    ) => {
+        const form = useForm<z.infer<TSchema>>({
+            defaultValues: initialValues as DefaultValues<z.infer<TSchema>>,
+            resolver: zodResolver(schema),
+            mode,
+        });
+
+        useImperativeHandle(ref, () => {
+            type TFormValues = z.infer<TSchema>;
+
+            return {
+                getValues: form.getValues,
+                reset: (values?: Partial<TFormValues>) =>
+                    form.reset(values as TFormValues),
+                setValue: (
+                    name: keyof TFormValues,
+                    value: TFormValues[keyof TFormValues]
+                ) => form.setValue(name as Path<TFormValues>, value),
+                formState: form.formState,
+                control: form.control,
+                form: form,
+            };
+        });
+
+        return (
+            <GenericFormContext.Provider value={{ control: form.control }}>
+                <FormProvider {...form}>
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)}>
+                            {children}
+                        </form>
+                    </Form>
+                </FormProvider>
+            </GenericFormContext.Provider>
+        );
     });
-
-    useImperativeHandle(ref, () => {
-        type TFormValues = z.infer<TSchema>;
-
-        return {
-            getValues: form.getValues,
-            reset: (values?: Partial<TFormValues>) =>
-                form.reset(values as TFormValues),
-            setValue: (
-                name: keyof TFormValues,
-                value: TFormValues[keyof TFormValues]
-            ) => form.setValue(name as Path<TFormValues>, value),
-            formState: form.formState,
-            control: form.control,
-            form: form,
-        };
-    });
-
-    return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>{children}</form>
-        </Form>
-    );
-};
 
 GenericForm.displayName = 'GenericForm';

@@ -1,10 +1,10 @@
-import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
 import { ProductFormValue } from '@/app/(AdminPanel)/dashboard/products/add/page'
+import { createProductInDB, fetchProducts } from './controller'
 
 export async function GET() {
     try {
-        const products = await prisma.product.findMany()
+        const products = await fetchProducts()
 
         return NextResponse.json(products)
     } catch (error) {
@@ -20,26 +20,7 @@ export async function POST(req: Request) {
     try {
         const data: ProductFormValue = await req.json()
 
-        const isExist = await prisma.product.findFirst({
-            where: {
-                product_code: data.product_code
-            },
-        })
-
-        if (isExist) {
-            return NextResponse.json({ message: 'Product code already exists' }, { status: 409 })
-        }
-
-        const result = await prisma.product.create({
-            data: {
-                name: data.name,
-                product_code: data.product_code,
-                admin_price: Number(data.admin_price),
-                selling_price: Number(data.selling_price),
-                regular_price: Number(data.regular_price),
-                discount: Number(data.discount),
-            },
-        })
+        const result = await createProductInDB(data)
 
         return NextResponse.json({ product: result, message: 'Product created successfully' }, { status: 200 })
     } catch (error) {
@@ -49,3 +30,4 @@ export async function POST(req: Request) {
         )
     }
 }
+

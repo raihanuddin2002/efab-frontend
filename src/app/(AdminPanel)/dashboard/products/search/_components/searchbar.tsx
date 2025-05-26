@@ -12,7 +12,7 @@ export default function Searchbar() {
     const [inputValue, setInputValue] = useState('')
     const [products, setProducts] = useState<ProductFormValue[] | null>(null)
 
-    const filteredProducts = products?.filter((product) => product.product_code.toLowerCase().startsWith(searchText.toLowerCase()))
+    const filteredProducts = products?.filter((product) => product?.product_code?.toLowerCase().startsWith(searchText.toLowerCase()))
 
     const debouncedSearch = useMemo(() => {
         return debounce((value: string) => {
@@ -92,11 +92,11 @@ export default function Searchbar() {
                                     >
                                         <h2 className='text-2xl font-semibold'>Name: {product.name}</h2>
                                         <h4 className='font-bold text-2xl mb-3'>Code: {product.product_code}</h4>
-                                        <p className='text-xl text-slate-700'>Admin Price: &#2547; {product.admin_price}</p>
-                                        <p className='text-xl font-bold'>Selling Price: &#2547; {product.selling_price}</p>
-                                        <p className='text-xl text-slate-700'>Regular Price: &#2547; {product.regular_price}</p>
-                                        <p className='text-xl text-slate-700'>Commission: &#2547; {product.admin_price - product.selling_price}</p>
-                                        <p className='text-xl text-slate-700'>Discount: {product.discount}%</p>
+                                        <p className='text-xl text-slate-700'>Admin Price: &#2547; {product?.admin_price}</p>
+                                        <p className='text-xl font-bold'>Selling Price: &#2547; {product?.selling_price}</p>
+                                        <p className='text-xl text-slate-700'>Regular Price: &#2547; {product?.regular_price}</p>
+                                        <p className='text-xl text-slate-700'>Commission: &#2547; {product?.admin_price && product?.selling_price ? product?.admin_price - product?.selling_price : 0}</p>
+                                        <p className='text-xl text-slate-700'>Discount: {product?.discount}%</p>
                                     </div>
                                 )
                             })

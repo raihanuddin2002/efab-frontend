@@ -12,6 +12,8 @@ import {
 import { cn } from '@/lib/cn';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 
 type TextFieldProps<T extends FieldValues> = {
@@ -67,6 +69,7 @@ export const TextField = <T extends FieldValues>({
     disabled = false,
 }: TextFieldProps<T>) => {
     const { control } = useFormContext<T>();
+
     return (
         <FormField
             control={control}
@@ -74,11 +77,12 @@ export const TextField = <T extends FieldValues>({
             render={({ field }) => (
                 <FormItem className={cn(className)}>
                     {label && (
-                        <FormLabel htmlFor={name}>
+                        <FormLabel htmlFor={name} className='flex justify-start px-2'>
                             <span>{label}</span>
                             {required && <span className="ml-1 text-red-500">*</span>}
                         </FormLabel>
                     )}
+
                     <FormControl>
                         <div className="relative flex items-center gap-2">
                             <Input
@@ -90,7 +94,7 @@ export const TextField = <T extends FieldValues>({
                                 disabled={disabled}
                             />
 
-                            {/* {loading && <LoadingSpinner className="absolute right-4" />} */}
+                            {loading && <FontAwesomeIcon icon={faSpinner} className="absolute right-4 animate-spin" />}
 
                             {action && (
                                 <Button
@@ -111,7 +115,7 @@ export const TextField = <T extends FieldValues>({
                         </div>
                     </FormControl>
 
-                    <FormMessage className="line-clamp-1 text-xs" />
+                    <FormMessage className="line-clamp-1 text-xs px-2 text-red-500" />
                 </FormItem>
             )}
         />
