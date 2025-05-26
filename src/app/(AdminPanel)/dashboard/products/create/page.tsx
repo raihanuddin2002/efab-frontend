@@ -12,14 +12,7 @@ import { toast } from 'react-toastify'
 import { createProductBrowser } from '@/app/supabase-browser-actions'
 import { isProductType, ProductFormValue, productSchema } from '@/app/(AdminPanel)/dashboard/products/types.product'
 
-const initialValues: ProductFormValue = {
-    name: '',
-    product_code: '',
-    admin_price: 0,
-    selling_price: 0,
-    regular_price: 0,
-    discount: 0,
-}
+
 
 export default function AddProduct() {
     const formRef = useRef<GenericFormRef<ProductFormValue>>(null);
@@ -27,7 +20,14 @@ export default function AddProduct() {
 
     const form = useForm<ProductFormValue>({
         resolver: zodResolver(productSchema),
-        defaultValues: initialValues,
+        defaultValues: {
+            name: '',
+            product_code: '',
+            admin_price: 0,
+            selling_price: 0,
+            regular_price: 0,
+            discount: 0,
+        },
     });
 
 
@@ -49,7 +49,7 @@ export default function AddProduct() {
                 return
             }
 
-            form.reset()
+            formRef.current?.reset()
             toast.success(`Product created successfully (${response.product_code})`)
         } catch (error) {
             console.error(error)
@@ -71,7 +71,7 @@ export default function AddProduct() {
                 <GenericForm
                     ref={formRef}
                     schema={productSchema}
-                    initialValues={initialValues}
+                    initialValues={form.getValues()}
                     onSubmit={(values) => {
                         handleFormSubmit(values)
                     }}
