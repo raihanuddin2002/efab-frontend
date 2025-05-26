@@ -13,8 +13,9 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { z } from 'zod';
+import { isUserType } from '../type.auth';
 
-export const userSchema = z.object({
+const userSchema = z.object({
     name: z.string().min(3, 'Name must be at least 3 characters long'),
     email: z.string().email('Invalid email'),
     password: z.string().min(8, 'Password must be at least 8 characters long')
@@ -139,16 +140,3 @@ export default function SignUp() {
 
     )
 }
-
-// type guard
-export const isUserType = (value: unknown): value is UserFormValue => {
-    if (!value || typeof value !== 'object') return false;
-
-    const v = value as Record<string, unknown>;
-
-    return (
-        typeof v.name === 'string' &&
-        typeof v.email === 'string' &&
-        typeof v.password === 'string'
-    );
-};

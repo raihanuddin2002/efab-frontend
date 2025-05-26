@@ -23,7 +23,6 @@ export default function SubmitButton({ children, disabled, onClick, ...props }: 
     return (
         <Button
             type='submit'
-            size="lg"
             className='mt-10'
             onClick={onClick}
             disabled={disabled || pending}

@@ -2,7 +2,6 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Dosis } from 'next/font/google'
 import StateContext from '@/context/StateContext'
-import AuthProvider from '../components/provider/AuthProvider'
 import Header from './header'
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
@@ -30,12 +29,10 @@ export default function RootLayout({
         <Header />
 
         <main>
-          <AuthProvider>
-            <StateContext>
-              <ReactToastify />
-              {children}
-            </StateContext>
-          </AuthProvider>
+          <StateContext>
+            <ReactToastify />
+            {children}
+          </StateContext>
         </main>
 
       </body>
