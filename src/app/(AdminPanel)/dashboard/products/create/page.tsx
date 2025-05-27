@@ -11,6 +11,8 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { createProductBrowser } from '@/app/supabase-browser-actions'
 import { isProductType, ProductFormValue, productSchema } from '@/app/(AdminPanel)/dashboard/products/types.product'
+import TextEditor from '@/components/form/fields/TextEditor'
+import { TextAreaField } from '@/components/form/fields/TextArea'
 
 export default function AddProduct() {
     const formRef = useRef<GenericFormRef<ProductFormValue>>(null);
@@ -25,6 +27,8 @@ export default function AddProduct() {
             selling_price: '',
             regular_price: '',
             discount: '',
+            description: '',
+            note: '',
         },
     });
 
@@ -126,6 +130,23 @@ export default function AddProduct() {
                             placeholder='%'
                             type='number'
                         />
+
+                        <div className='col-span-2'>
+                            <TextEditor<ProductFormValue>
+                                name='description'
+                                label='Description'
+                                maxLength={1000}
+                            />
+                        </div>
+
+                        <div className='col-span-2'>
+                            <TextAreaField<ProductFormValue>
+                                name='note'
+                                label='Note'
+                                placeholder='Enter Note'
+                                rows={5}
+                            />
+                        </div>
                     </div>
 
                     <div className='text-center'>

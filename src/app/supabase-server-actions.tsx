@@ -7,9 +7,12 @@ export const getSession = async () => {
     return session
 }
 
-export async function fetchProductsServer() {
+export async function fetchProductsServer(sort: "asc" | "desc" = "desc") {
     const supabase = await supabaseServerClient()
-    const { data: products, error } = await supabase.from("Product").select()
+    const { data: products, error } = await supabase
+        .from("Product")
+        .select()
+        .order("created_at", { ascending: sort === "asc" })
 
     if (error) {
         console.error(error)

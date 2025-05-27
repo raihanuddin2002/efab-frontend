@@ -8,7 +8,7 @@ export default async function AllProductsPage() {
     return (
         <section>
             <h2 className='text-2xl font-bold mb-10 uppercase text-center'>All Products</h2>
-            <div className='flex flex-wrap justify-center items-center gap-6'>
+            <div className='flex flex-wrap justify-center items-stretch gap-6'>
                 {
                     products && products.length > 0 ? (
                         products

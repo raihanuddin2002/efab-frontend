@@ -1,6 +1,10 @@
-import React from 'react'
+"use client"
+
+import React, { useState } from 'react'
 import { ProductType } from '../types.product'
 import CopyButton from '@/components/ui/copy-button'
+import { faCopy } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type Props = {
     product: ProductType
@@ -9,6 +13,17 @@ type Props = {
 export default function ProductCard({
     product,
 }: Props) {
+    const [copied, setCopied] = useState<'html' | 'text' | null>(null);
+
+    const copyText = () => {
+        const tempEl = document.createElement("div");
+        tempEl.innerHTML = product?.description || '';
+        const textContent = tempEl.textContent || tempEl.innerText || '';
+        navigator.clipboard.writeText(textContent).then(() => {
+            setCopied('text');
+            setTimeout(() => setCopied(null), 2000);
+        });
+    };
     return (
         <div className='card max-w-[500px] w-full relative p-10 bg-slate-50'>
             <h2 className='text-2xl font-semibold'>Name: {product.name}</h2>
@@ -48,6 +63,25 @@ export default function ProductCard({
                 Discount: {product?.discount ? product?.discount + "%" : "N/A"}
             </p>
 
+            <div className='mt-5'>
+                <span className='font-bold text-xl'>
+                    Description: {product?.description ? (
+                        <FontAwesomeIcon
+                            className='ms-2 cursor-pointer hover:scale-110 hover:opacity-60 transition-all'
+                            icon={faCopy}
+                            size='sm'
+                            onClick={copyText}
+                        />
+                    ) : "N/A"}
+                </span>
+                {product?.description && (
+                    <span className='' dangerouslySetInnerHTML={{ __html: product?.description.slice(0, 100).trim().toString() + "..." }} />
+                )}
+            </div>
+
+            <p className='text-xl text-slate-700 mt-5'>
+                <span className='font-bold'>Note:</span> {product?.note || "N/A"}
+            </p>
 
             {/* Copy Product details*/}
             <CopyButton

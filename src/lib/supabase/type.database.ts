@@ -202,6 +202,7 @@ export type Database = {
           image_link: string | null
           is_active: boolean | null
           name: string
+          note: string | null
           product_code: string
           regular_price: number | null
           selling_price: number
@@ -221,9 +222,10 @@ export type Database = {
           image_link?: string | null
           is_active?: boolean | null
           name: string
+          note?: string | null
           product_code: string
           regular_price?: number | null
-          selling_price: number
+          selling_price?: number
           stock?: number | null
           sub_category_id?: number | null
           tags?: string | null
@@ -240,6 +242,7 @@ export type Database = {
           image_link?: string | null
           is_active?: boolean | null
           name?: string
+          note?: string | null
           product_code?: string
           regular_price?: number | null
           selling_price?: number
@@ -404,7 +407,7 @@ export type Database = {
           password: string | null
           phone: string | null
           postal_code: string | null
-          role_id: number
+          role_id: number | null
           thana: string | null
           updated_at: string | null
         }
@@ -419,7 +422,7 @@ export type Database = {
           password?: string | null
           phone?: string | null
           postal_code?: string | null
-          role_id: number
+          role_id?: number | null
           thana?: string | null
           updated_at?: string | null
         }
@@ -434,7 +437,7 @@ export type Database = {
           password?: string | null
           phone?: string | null
           postal_code?: string | null
-          role_id?: number
+          role_id?: number | null
           thana?: string | null
           updated_at?: string | null
         }

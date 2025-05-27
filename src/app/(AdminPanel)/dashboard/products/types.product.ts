@@ -14,6 +14,8 @@ export const productSchema = z.object({
     }, 'Selling price is required'),
     regular_price: z.string().optional(),
     discount: z.string().optional(),
+    description: z.string().optional(),
+    note: z.string().optional(),
 });
 
 export type ProductFormValue = z.infer<typeof productSchema>;

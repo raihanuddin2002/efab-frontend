@@ -98,7 +98,7 @@ export const TextField = <T extends FieldValues>({
 
                             {action && (
                                 <Button
-                                    size={'sm'}
+                                    // size={'sm'}
                                     onClick={action}
                                     type="button"
                                     className={cn('absolute right-0.5 top-0.5', iconClass)}
