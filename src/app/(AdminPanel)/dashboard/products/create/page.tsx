@@ -12,8 +12,6 @@ import { toast } from 'react-toastify'
 import { createProductBrowser } from '@/app/supabase-browser-actions'
 import { isProductType, ProductFormValue, productSchema } from '@/app/(AdminPanel)/dashboard/products/types.product'
 
-
-
 export default function AddProduct() {
     const formRef = useRef<GenericFormRef<ProductFormValue>>(null);
     const [isLoading, setIsLoading] = useState(false)
@@ -23,10 +21,10 @@ export default function AddProduct() {
         defaultValues: {
             name: '',
             product_code: '',
-            admin_price: 0,
-            selling_price: 0,
-            regular_price: 0,
-            discount: 0,
+            admin_price: '',
+            selling_price: '',
+            regular_price: '',
+            discount: '',
         },
     });
 
@@ -34,15 +32,23 @@ export default function AddProduct() {
     const handleFormSubmit = async (values: ProductFormValue) => {
         setIsLoading(true)
 
+        const product = {
+            ...values,
+            admin_price: parseFloat(values.admin_price || '0'),
+            selling_price: parseFloat(values.selling_price || '0'),
+            regular_price: parseFloat(values.regular_price || '0'),
+            discount: parseFloat(values.discount || '0'),
+        }
+
         try {
-            const isProduct = isProductType(values)
+            const isProduct = isProductType(product)
 
             if (!isProduct) {
                 toast.error('Invalid product data')
                 return
             }
 
-            const response = await createProductBrowser(values)
+            const response = await createProductBrowser(product)
 
             if (!response) {
                 toast.error('Something went wrong')
@@ -85,23 +91,24 @@ export default function AddProduct() {
                         />
 
                         <TextField<ProductFormValue>
+                            type='text'
                             name='product_code'
                             label='Product Code'
-                            placeholder='Enter Product Code'
+                            placeholder='XX000'
                             required
                         />
 
                         <TextField<ProductFormValue>
                             name='admin_price'
                             label='Admin Price'
-                            placeholder='Enter Admin Price'
+                            placeholder='৳'
                             type='number'
                         />
 
                         <TextField<ProductFormValue>
                             name='selling_price'
                             label='Selling Price'
-                            placeholder='Enter Selling Price'
+                            placeholder='৳'
                             type='number'
                             required
                         />
@@ -109,14 +116,14 @@ export default function AddProduct() {
                         <TextField<ProductFormValue>
                             name='regular_price'
                             label='Regular Price'
-                            placeholder='Enter Regular Price'
+                            placeholder='৳'
                             type='number'
                         />
 
                         <TextField<ProductFormValue>
                             name='discount'
                             label='Discount'
-                            placeholder='Enter Discount'
+                            placeholder='%'
                             type='number'
                         />
                     </div>

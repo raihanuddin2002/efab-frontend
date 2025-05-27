@@ -8,6 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchProductByCodeBrowser } from '@/app/supabase-browser-actions'
 import { isProductType, ProductType } from '@/app/(AdminPanel)/dashboard/products/types.product'
 import { toast } from 'react-toastify'
+import { faClipboard, faCopy } from '@fortawesome/free-regular-svg-icons'
+import CopyButton from '@/components/ui/copy-button'
+import ProductCard from '../_components/product-card'
 
 export default function SearchProducts() {
     const [searchText, setSearchText] = useState('')
@@ -90,18 +93,10 @@ export default function SearchProducts() {
             <div className='flex flex-wrap justify-center items-center gap-x-2 gap-y-8'>
                 {
                     product && (
-                        <div
+                        <ProductCard
                             key={product.product_code}
-                            className='card min-w-[500px] mx-auto p-10 bg-slate-50'
-                        >
-                            <h2 className='text-2xl font-semibold'>Name: {product.name}</h2>
-                            <h4 className='font-bold text-2xl mb-3'>Code: {product.product_code}</h4>
-                            <p className='text-xl text-slate-700'>Admin Price: &#2547; {product?.admin_price}</p>
-                            <p className='text-xl font-bold'>Selling Price: &#2547; {product?.selling_price}</p>
-                            <p className='text-xl text-slate-700'>Regular Price: &#2547; {product?.regular_price}</p>
-                            <p className='text-xl text-slate-700'>Commission: &#2547; {product?.admin_price && product?.selling_price ? product?.admin_price - product?.selling_price : 0}</p>
-                            <p className='text-xl text-slate-700'>Discount: {product?.discount}%</p>
-                        </div>
+                            product={product}
+                        />
                     )
                 }
 

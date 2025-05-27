@@ -69,7 +69,7 @@ export default function SignUp() {
                 throw new Error(error.message)
             }
 
-            toast.success(`Success! Check your email for verification :)`)
+            toast.success(`Check your email for verification`)
             form.reset()
             router.push('/login')
         } catch (error) {

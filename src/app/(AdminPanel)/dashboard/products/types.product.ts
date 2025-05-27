@@ -5,11 +5,15 @@ export type ProductType = Database['public']['Tables']['Product']['Row']
 
 export const productSchema = z.object({
     name: z.string().min(3, 'Name must be at least 3 characters long'),
-    product_code: z.string().min(0, 'Code must be at least 3 characters long').optional(),
-    admin_price: z.coerce.number().min(0, 'Admin price must be at least 0').optional(),
-    selling_price: z.coerce.number().min(0, 'Selling price must be at least 0'),
-    regular_price: z.coerce.number().min(0, 'Regular price must be at least 0').optional(),
-    discount: z.coerce.number().min(0, 'Discount must be at least 0').optional(),
+    product_code: z.string().min(3, 'Code must be at least 3 characters long'),
+    admin_price: z.string().optional(),
+    selling_price: z.string().refine((value) => {
+        if (!value) return false
+        const num = Number(value)
+        return !isNaN(num) && num >= 0
+    }, 'Selling price is required'),
+    regular_price: z.string().optional(),
+    discount: z.string().optional(),
 });
 
 export type ProductFormValue = z.infer<typeof productSchema>;
