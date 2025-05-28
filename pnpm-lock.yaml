@@ -189,6 +189,9 @@ importers:
       '@types/bcrypt':
         specifier: ^5.0.2
         version: 5.0.2
+      '@types/react-responsive':
+        specifier: ^9.0.0
+        version: 9.0.0(react@19.1.0)
       '@types/turndown':
         specifier: ^5.0.5
         version: 5.0.5
@@ -1765,6 +1768,10 @@ packages:
     resolution: {integrity: sha512-MEe3UeoENYVFXzoXEWsvcpg6ZvlrFNlOQ7EOsvhI3CfAXwzPfO8Qwuxd40nepsYKqyyVQnTdEfv68q91yLcKrQ==}
     peerDependencies:
       '@types/react': ^18.0.0
+
+  '@types/react-responsive@9.0.0':
+    resolution: {integrity: sha512-2B/tmI2OE5Ul57/yo6szbTmI6rbWus6K317lk6baf6Ngvs1RPfvwerns+c0FtmoIDaK7wwVGllZjTTrpYfW2fA==}
+    deprecated: This is a stub types definition. react-responsive provides its own type definitions, so you do not need this installed.
 
   '@types/react@18.3.22':
     resolution: {integrity: sha512-vUhG0YmQZ7kL/tmKLrD3g5zXbXXreZXB3pmROW8bg3CnLnpjkRVwUlLne7Ufa2r9yJ8+/6B73RzhAek5TBKh2Q==}
@@ -5841,6 +5848,12 @@ snapshots:
   '@types/react-dom@18.3.7(@types/react@18.3.22)':
     dependencies:
       '@types/react': 18.3.22
+
+  '@types/react-responsive@9.0.0(react@19.1.0)':
+    dependencies:
+      react-responsive: 10.0.1(react@19.1.0)
+    transitivePeerDependencies:
+      - react
 
   '@types/react@18.3.22':
     dependencies:

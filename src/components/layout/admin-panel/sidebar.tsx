@@ -20,7 +20,7 @@ export default function AdminSidebar({ openSidebar, onSideChange }: Props) {
     return (
         <section
             style={{ width: `${LAYOUT.ADMIN_SIDEBAR}px` }}
-            className={cn('bg-slate-100 h-full px-4 fixed top-0 left-0 overflow-y-auto z-[1]', {
+            className={cn('bg-slate-100 h-full px-4 fixed top-0 left-0 overflow-y-auto z-[10]', {
                 'left-[-500%]': !openSidebar
             })}
         >

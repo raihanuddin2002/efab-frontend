@@ -10,8 +10,8 @@ type Props = {
 }
 
 export default function AdminPanelLayout({ children }: Props) {
-    const [openSidebar, setOpenSidebar] = useState(true)
     const isDesktopScreen = useMediaQuery({ query: '(min-width: 1200px)' })
+    const [openSidebar, setOpenSidebar] = useState(isDesktopScreen ? true : false)
 
     const sidebarWidth = openSidebar ? (LAYOUT.ADMIN_SIDEBAR + LAYOUT.ADMIN_SIDEBAR_COLLAPSED_BAR) : LAYOUT.ADMIN_SIDEBAR_COLLAPSED_BAR
 
@@ -23,7 +23,7 @@ export default function AdminPanelLayout({ children }: Props) {
                     onSideChange={(value: boolean) => setOpenSidebar(value)}
                 />
 
-                {/* In desktop taking sidebar width and in mobile taking full width */}
+                {/* In desktop, children width minusing from sidebar width and in mobile taking full width */}
                 <div
                     className='p-4 overflow-y-auto'
                     style={{

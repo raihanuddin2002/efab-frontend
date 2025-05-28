@@ -131,7 +131,7 @@ export default function AddProduct() {
                             type='number'
                         />
 
-                        <div className='col-span-2'>
+                        <div className='md:col-span-2'>
                             <TextEditor<ProductFormValue>
                                 name='description'
                                 label='Description'
@@ -139,7 +139,7 @@ export default function AddProduct() {
                             />
                         </div>
 
-                        <div className='col-span-2'>
+                        <div className='md:col-span-2'>
                             <TextAreaField<ProductFormValue>
                                 name='note'
                                 label='Note'
