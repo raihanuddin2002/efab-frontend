@@ -60,11 +60,6 @@ export default function Nav() {
         fetchSession()
     }, [])
 
-    // const handleLogout = () => {
-    //     Logout()
-    //     setIsLoggedIn(false)
-    // }
-
     return (
         <>
             <nav className={`
@@ -94,8 +89,9 @@ export default function Nav() {
                             return (
                                 <div
                                     key={nav.href}
-                                    className={`${showResponsiveNav && 'px-6 py-3 md:p-0 hover:bg-black md:hover:bg-transparent hover:text-white md:hover:text-black'}`
-                                    }>
+                                    onClick={() => setShowResponsiveNav(false)}
+                                    className={`${showResponsiveNav && 'px-6 py-3 md:p-0 hover:bg-black md:hover:bg-transparent hover:text-white md:hover:text-black'}`}
+                                >
                                     <Link
                                         href={nav.href}
                                         className={`md:hover:underline ${isActive && 'font-bold'}`}

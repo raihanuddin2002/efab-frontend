@@ -32,6 +32,7 @@ export default function Header() {
                             <Logo className='me-2' />
                         </div>
                     </Link>
+
                     <Nav />
                 </Container>
             </header>

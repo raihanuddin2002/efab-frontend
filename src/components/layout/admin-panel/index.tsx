@@ -20,7 +20,7 @@ export default function AdminPanelLayout({ children }: Props) {
             <div className="flex h-full w-full relative">
                 <AdminSidebar
                     openSidebar={openSidebar}
-                    onSideChange={(value: boolean) => setOpenSidebar(value)}
+                    onSidebarChange={(value: boolean) => setOpenSidebar(value)}
                 />
 
                 {/* In desktop, children width minusing from sidebar width and in mobile taking full width */}

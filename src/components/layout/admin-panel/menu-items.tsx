@@ -8,16 +8,29 @@ import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import { sidebarMenuItems } from '@/components/layout/admin-panel/sidebar-menu-config'
+import { useMediaQuery } from 'react-responsive'
 
-export default function MenuItems() {
+type Props = {
+    onSidebarChange: (open: boolean) => void
+}
+
+export default function MenuItems({ onSidebarChange }: Props) {
     const router = useRouter()
     const pathname = usePathname()
     const [collapsed, setCollapsed] = useState(true)
     const [collapsedId, setCollapsedId] = useState('')
+    const isDesktopScreen = useMediaQuery({ query: '(min-width: 1200px)' })
 
     const handleCollapse = (id: string) => {
         setCollapsed(prev => !prev)
         setCollapsedId(id)
+    }
+
+    // In mobile screen, when click on menu item, sidebar will be closed
+    const handleSidebarItemClick = (hasDropdown?: boolean) => {
+        if (!isDesktopScreen && !hasDropdown) {
+            onSidebarChange(false)
+        }
     }
 
     return (
@@ -47,6 +60,7 @@ export default function MenuItems() {
                                     return;
                                 }
 
+                                handleSidebarItemClick(item.hasdropdown)
                                 handleCollapse('')
                                 router.push(item.link)
                             }}
@@ -73,7 +87,7 @@ export default function MenuItems() {
                             </div>
                         </li>
 
-
+                        {/* Dropdown menu */}
                         {!collapsed && collapsedId === item.link && item.hasdropdown &&
                             item.childrens.length > 0 && (
                                 <ul className='pl-4'>
@@ -84,6 +98,7 @@ export default function MenuItems() {
                                             <Link href={child.link} key={child.link}>
                                                 <li
                                                     key={child.link}
+                                                    onClick={() => handleSidebarItemClick(false)}
                                                     className={cn(`
                                                         flex 
                                                         items-center 

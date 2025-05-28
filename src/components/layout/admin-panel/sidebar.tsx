@@ -11,11 +11,12 @@ import { useMediaQuery } from 'react-responsive'
 
 type Props = {
     openSidebar: boolean,
-    onSideChange: (value: boolean) => void
+    onSidebarChange: (value: boolean) => void
 }
 
-export default function AdminSidebar({ openSidebar, onSideChange }: Props) {
+export default function AdminSidebar({ openSidebar, onSidebarChange }: Props) {
     const bigScreen = useMediaQuery({ query: '(min-width: 1645px)' })
+    const isDesktopScreen = useMediaQuery({ query: '(min-width: 1200px)' })
 
     return (
         <section
@@ -28,7 +29,7 @@ export default function AdminSidebar({ openSidebar, onSideChange }: Props) {
                 {!bigScreen && <Logo />}
             </div>
 
-            <MenuItems />
+            <MenuItems onSidebarChange={onSidebarChange} />
 
             <div
                 style={{
@@ -36,7 +37,7 @@ export default function AdminSidebar({ openSidebar, onSideChange }: Props) {
                     width: LAYOUT.ADMIN_SIDEBAR_COLLAPSED_BAR + 'px',
                     left: openSidebar ? `${LAYOUT.ADMIN_SIDEBAR}px` : "0"
                 }}
-                onClick={() => onSideChange(!openSidebar)}
+                onClick={() => onSidebarChange(!openSidebar)}
                 className={cn('h-full bg-slate-200 fixed top-0 flex items-center justify-center cursor-pointer hover:bg-slate-400 hover:scale-105 transition-all')}
             >
                 {openSidebar ? (
