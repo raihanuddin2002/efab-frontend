@@ -14,9 +14,15 @@ const dosis = Dosis({
 })
 
 export const metadata: Metadata = {
-  title: 'efab (admin)',
+  title: 'efab',
   description: 'This is personal project.',
+  manifest: "/manifest.json"
 }
+
+export const viewport = {
+  themeColor: "#000000",
+};
+
 
 export default function RootLayout({
   children,
@@ -25,6 +31,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+      </head>
+
       <body className={`${dosis.className} h-screen`}>
         <Header />
 

@@ -1,5 +1,4 @@
 import { supabaseServerClient } from "@/lib/supabase"
-import { ProductType } from "./(AdminPanel)/dashboard/products/types.product"
 
 export const getSession = async () => {
     const supabase = await supabaseServerClient()
