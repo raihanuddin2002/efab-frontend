@@ -20,3 +20,19 @@ export async function fetchProductsServer(sort: "asc" | "desc" = "desc") {
 
     return products
 }
+
+export async function fetchProductByIdServer(id: number) {
+    const supabase = await supabaseServerClient()
+    const { data: product, error } = await supabase
+        .from("Product")
+        .select()
+        .eq("id", id)
+        .single()
+
+    if (error) {
+        console.error(error)
+        throw new Error(error.message)
+    }
+
+    return product
+}

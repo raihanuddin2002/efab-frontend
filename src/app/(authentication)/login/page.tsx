@@ -13,6 +13,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { z } from 'zod';
 import { supabaseBrowserClient } from '@/lib/supabase';
 import { toast } from 'react-toastify';
+import { paths } from '@/confiig/paths.cofig';
 
 const loginSchema = z.object({
     email: z.string().email('Invalid email'),
@@ -50,7 +51,7 @@ export default function Login() {
             form.reset()
 
             setTimeout(() => {
-                window.location.href = '/dashboard'
+                window.location.href = paths.dashboard.root
             }, 1000)
         } catch (error) {
             if (error instanceof Error) {

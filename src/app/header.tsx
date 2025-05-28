@@ -6,6 +6,7 @@ import Nav from '../components/Nav'
 import { LAYOUT } from '../confiig/layout-config'
 import Container from '../components/container'
 import { useMediaQuery } from 'react-responsive'
+import { paths } from '@/confiig/paths.cofig'
 
 export default function Header() {
     const isDesktopScreen = useMediaQuery({ query: '(min-width: 1200px)' })
@@ -22,7 +23,7 @@ export default function Header() {
                     '
                 >
                     {/* For small screen margin left */}
-                    <Link href='/'>
+                    <Link href={paths.base}>
                         <div
                             className='flex items-center'
                             style={{

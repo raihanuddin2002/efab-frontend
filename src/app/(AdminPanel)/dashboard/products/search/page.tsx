@@ -7,9 +7,6 @@ import { faClose, faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fetchProductByCodeBrowser } from '@/app/supabase-browser-actions'
 import { isProductType, ProductType } from '@/app/(AdminPanel)/dashboard/products/types.product'
-import { toast } from 'react-toastify'
-import { faClipboard, faCopy } from '@fortawesome/free-regular-svg-icons'
-import CopyButton from '@/components/ui/copy-button'
 import ProductCard from '../_components/product-card'
 
 export default function SearchProducts() {
@@ -51,6 +48,11 @@ export default function SearchProducts() {
         })
     }, [searchText])
 
+    const handleSearch = (value: string) => {
+        setInputValue(value)
+        debouncedSearch(value)
+    }
+
     return (
         <div>
             <div className='max-w-[500px] w-full relative mx-auto mb-10'>
@@ -60,11 +62,7 @@ export default function SearchProducts() {
                     name='search'
                     placeholder='Enter product code'
                     autoComplete='off'
-                    onChange={(e) => {
-                        const value = e.target.value
-                        setInputValue(value)
-                        debouncedSearch(value)
-                    }}
+                    onChange={(e) => handleSearch(e.target.value)}
                     value={inputValue}
                     autoFocus
                     area-label='Search Product'

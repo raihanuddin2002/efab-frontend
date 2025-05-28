@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { supabaseBrowserClient } from '@/lib/supabase'
+import { paths } from '@/confiig/paths.cofig'
 
 export const Logout = async () => {
     await supabaseBrowserClient().auth.signOut()
@@ -16,28 +17,28 @@ export const navLinks = (isLoggedIn: boolean) => {
     return [
         {
             name: "Home",
-            href: "/",
+            href: paths.base,
             loginRoute: true,
             normalRoute: true,
             show: true
         },
         {
             name: "Login",
-            href: "/login",
+            href: paths.auth.login,
             loginRoute: false,
             normalRoute: true,
             show: !isLoggedIn
         },
         {
             name: "Sign up",
-            href: "/signup",
+            href: paths.auth.signup,
             loginRoute: false,
             normalRoute: true,
             show: !isLoggedIn
         },
         {
             name: "Dashboard",
-            href: "/dashboard",
+            href: paths.dashboard.root,
             loginRoute: false,
             normalRoute: false,
             show: isLoggedIn

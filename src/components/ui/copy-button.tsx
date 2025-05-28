@@ -4,6 +4,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboard, faCopy } from '@fortawesome/free-solid-svg-icons'
 import { cn } from '@/lib/cn'
+import { toast } from 'react-toastify'
 
 type CopyButtonProps = {
     style?: React.CSSProperties
@@ -11,7 +12,8 @@ type CopyButtonProps = {
     value?: string
     title?: string
     size?: 'xs' | 'sm' | 'lg' | 'xl',
-    icon?: "copy" | "clipboard"
+    icon?: "copy" | "clipboard",
+    children?: React.ReactNode
 }
 
 export default function CopyButton({
@@ -21,6 +23,7 @@ export default function CopyButton({
     style,
     size,
     icon = "copy",
+    children,
 }: CopyButtonProps) {
     return (
         <span
@@ -31,8 +34,11 @@ export default function CopyButton({
             <FontAwesomeIcon
                 icon={icon === 'copy' ? faCopy : faClipboard}
                 size={size || 'sm'}
-                onClick={() => navigator.clipboard.writeText(value || '')}
+                onClick={() => navigator.clipboard.writeText(value || '').then(() => {
+                    toast("✔ Copied to clipboard", { position: "top-center", autoClose: 500 })
+                })}
             />
+            {children}
         </span>
     )
 }

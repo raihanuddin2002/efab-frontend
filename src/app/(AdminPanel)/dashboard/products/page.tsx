@@ -1,6 +1,6 @@
 import React from 'react'
 import { fetchProductsServer } from '@/app/supabase-server-actions'
-import ProductCard from '../_components/product-card'
+import ProductCard from './_components/product-card'
 
 export default async function AllProductsPage() {
     const products = await fetchProductsServer()

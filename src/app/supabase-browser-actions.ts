@@ -1,4 +1,4 @@
-import { ProductFormValue, ProductType } from "@/app/(AdminPanel)/dashboard/products/types.product"
+import { ProductType } from "@/app/(AdminPanel)/dashboard/products/types.product"
 import { supabaseBrowserClient } from "@/lib/supabase/browser-client"
 
 export async function fetchProductsBrowser() {
@@ -8,7 +8,7 @@ export async function fetchProductsBrowser() {
 
     if (error) {
         console.error(error)
-        throw new Error('Failed to fetch products')
+        throw new Error(error.message)
     }
 
     return products
@@ -23,7 +23,7 @@ export async function fetchProductByCodeBrowser(product_code: string) {
 
     if (error) {
         console.error(error)
-        throw new Error('Failed to fetch product')
+        throw new Error(error.message)
     }
 
     return product
@@ -38,8 +38,40 @@ export async function createProductBrowser(data: ProductType) {
 
     if (error) {
         console.error(error)
-        throw new Error('Failed to create product')
+        throw new Error(error.message)
     }
 
     return product
+}
+
+export async function updateProductBrowser(data: ProductType) {
+    const { data: product, error } = await supabaseBrowserClient()
+        .from("Product")
+        .update(data)
+        .eq("id", data.id)
+        .select()
+        .single()
+
+    if (error) {
+        console.error(error)
+        throw new Error(error.message)
+    }
+
+    return product
+}
+
+export async function deleteProductBrowser(id: number) {
+    const { data, error } = await supabaseBrowserClient()
+        .from("Product")
+        .delete()
+        .eq("id", id)
+        .select()
+
+
+    if (error) {
+        console.error(error)
+        throw new Error(error.message)
+    }
+
+    return data[0]
 }

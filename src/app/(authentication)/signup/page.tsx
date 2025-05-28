@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { z } from 'zod';
 import { isUserType } from '../type.auth';
+import { paths } from '@/confiig/paths.cofig';
 
 const userSchema = z.object({
     name: z.string().min(3, 'Name must be at least 3 characters long'),
@@ -71,7 +72,7 @@ export default function SignUp() {
 
             toast.success(`Check your email for verification`)
             form.reset()
-            router.push('/login')
+            router.push(paths.auth.login)
         } catch (error) {
             console.error(error)
             toast.error('Network or server error')
