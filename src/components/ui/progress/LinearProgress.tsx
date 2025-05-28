@@ -15,7 +15,7 @@ export default function LinearProgress({
     childStyle
 }: Props) {
     return (
-        <div className={cn("overflow-hidden h-[4px] w-full bg-slate-400 absolute top-[70px] z-[2]", parentClassName)} style={parentStyle}>
+        <div className={cn("overflow-hidden h-[4px] w-full bg-slate-400 absolute top-[70px] left-0 z-[2]", parentClassName)} style={parentStyle}>
             <div className={cn(`
                 w-full 
                 h-full
