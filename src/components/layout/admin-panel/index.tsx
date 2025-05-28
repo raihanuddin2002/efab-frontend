@@ -17,7 +17,7 @@ export default function AdminPanelLayout({ children }: Props) {
 
     return (
         <section style={{ height: `calc(100vh - ${LAYOUT.TOP_HEADER}px)` }} >
-            <div className="flex h-full w-full relative">
+            <div className="flex h-full w-full">
                 <AdminSidebar
                     openSidebar={openSidebar}
                     onSidebarChange={(value: boolean) => setOpenSidebar(value)}

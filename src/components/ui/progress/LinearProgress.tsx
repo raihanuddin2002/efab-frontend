@@ -1,9 +1,22 @@
 import React from 'react'
+import { cn } from '@/lib/cn'
 
-export default function LinearProgress() {
+type Props = {
+    parentClassName?: string
+    parentStyle?: React.CSSProperties
+    childClassName?: string
+    childStyle?: React.CSSProperties
+}
+
+export default function LinearProgress({
+    parentClassName,
+    parentStyle,
+    childClassName,
+    childStyle
+}: Props) {
     return (
-        <div className="overflow-hidden h-[4px] w-full bg-slate-400">
-            <div className="
+        <div className={cn("overflow-hidden h-[4px] w-full bg-slate-400 absolute top-[70px] z-[2]", parentClassName)} style={parentStyle}>
+            <div className={cn(`
                 w-full 
                 h-full
                 relative
@@ -17,7 +30,7 @@ export default function LinearProgress() {
                 after:content-''
                 after:animate-linear_after
                 after:bg-black 
-            ">
+            `, childClassName)} style={childStyle}>
 
             </div>
         </div>
